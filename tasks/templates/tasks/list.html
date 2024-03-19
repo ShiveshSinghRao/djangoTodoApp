@@ -14,18 +14,22 @@
     </form>
     <hr>
     <h2>Tasks:</h2>
-    {% for task in tasks %}
-    <div style="display: flex; justify-content: space-around; margin-top: 10px;">
-        <a href="{% url 'update_task' task.id %}">Edit</a>
-        <p>Title: {{ task.title }}</p>
-        <p>Created at: {{ task.created }}</p>
-        {% if task.complete %}
-        <p>Completed: Yes</p>
-        <p>Completed at: {{ task.completed_at }}</p>
-        {% else %}
-        <p>Not Yet Completed</p>
-        {% endif %}
-    </div>
-    {% endfor %}
+    <form method="POST" action="/">
+        {% csrf_token %}
+        {% for task in tasks %}
+        <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+            <input type="checkbox" name="task_id" value="{{ task.id }}">
+            <p>Title: {{ task.title }}</p>
+            <p>Created at: {{ task.created }}</p>
+            {% if task.complete %}
+            <p>Completed: Yes</p>
+            <p>Completed at: {{ task.completed_at }}</p>
+            {% else %}
+            <p>Not Yet Completed</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <input type="submit" value="Mark as Completed">
+    </form>
 </body>
 </html>
