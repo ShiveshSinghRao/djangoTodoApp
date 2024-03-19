@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+<body>
+    <h1>To Do List</h1>
+    <form method="POST" action="/">
+        {% csrf_token %}
+        {{ form.title }}
+        <input type="submit" value="Create Task">
+    </form>
+    <hr>
+    <h2>Tasks:</h2>
+    {% for task in tasks %}
+    <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+        <a href="{% url 'update_task' task.id %}">Edit</a>
+        <p>Title: {{ task.title }}</p>
+        <p>Created at: {{ task.created }}</p>
+        {% if task.complete %}
+        <p>Completed: Yes</p>
+        <p>Completed at: {{ task.completed_at }}</p>
+        {% else %}
+        <p>Not Yet Completed</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</body>
+</html>
