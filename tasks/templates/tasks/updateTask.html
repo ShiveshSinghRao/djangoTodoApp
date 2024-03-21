@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+<body>
+    <h1>To Do List</h1>
+    <form method="POST" action="/">
+        {% csrf_token %}
+        {{ form.title }}
+        <input type="submit" value="Create Task">
+    </form>
+    <hr>
+    <h2>Tasks:</h2>
+    {% for task in tasks %}
+    <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+        <form >
+            {% csrf_token %}
+            <input type="hidden" name="task_id" value="{{ task.id }}">
+
+            <p>Title: {{ task.title }}</p>
+            <p>Created at: {{ task.created }}</p>
+             if task.id == request.post['task.id']:
+                <p>Completed: Yes</p>
+                <p>Completed at: {{ task.completed_at }}</p>
+           
+            <button type="submit" name="complete">Mark Complete</button>
+             
+        </form>
+    </div>
+    {% endfor %}
+</body>
+</html>

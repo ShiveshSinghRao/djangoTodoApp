@@ -6,19 +6,27 @@
     <title>Task List</title>
 </head>
 <body>
-    <h1>To Do List</h1>
-    <form method="POST" action="/">
-        {% csrf_token %}
-        {{ form.title }}
-        <input type="submit" value="Create Task">
-    </form>
+    <div>
+        <div><h1>To Do List</h1>
+            <form method="POST" action="/">
+                {% csrf_token %}
+                {{ form.title }}
+                <input type="submit" value="Create Task">
+            </form></div>
+        <div>
+            <h1>Search task</h1>
+            <form method="POST" action="'/">
+            <input type="text" value="search task"></form>
+        </div>
+    </div>
     <hr>
     <h2>Tasks:</h2>
-    <form method="POST" action="/">
-        {% csrf_token %}
-        {% for task in tasks %}
-        <div style="display: flex; justify-content: space-around; margin-top: 10px;">
-            <input type="checkbox" name="task_id" value="{{ task.id }}">
+    {% for task in tasks %}
+    <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+        <form method="POST" action="{% url 'updateTask' task.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="task_id" value="{{ task.id }}">
+
             <p>Title: {{ task.title }}</p>
             <p>Created at: {{ task.created }}</p>
             {% if task.complete %}
@@ -26,10 +34,10 @@
             <p>Completed at: {{ task.completed_at }}</p>
             {% else %}
             <p>Not Yet Completed</p>
+            <button type="submit" name="complete">Mark Complete</button>
             {% endif %}
-        </div>
-        {% endfor %}
-        <input type="submit" value="Mark as Completed">
-    </form>
+        </form>
+    </div>
+    {% endfor %}
 </body>
 </html>
